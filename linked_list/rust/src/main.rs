@@ -1,46 +1,60 @@
-#[derive(Clone)]
 struct Node<T> {
-    value: T,
-    next: Option<Box<Node<T>>>,
 }
 
-type OptionalNode<T> = Option<Box<Node<T>>>;
-
-
-struct LinkedList<T> {
-    head: OptionalNode<T>,
+struct DoublyLinkedList<T> {
 }
+  
+impl<T> DoublyLinkedList<T> {
+  /// Removes the last element from a list and returns it, or None if it is empty.
+  /// This operation should compute in O(1) time.
+  fn pop_back(&mut self) -> Option<T> {
+  }
 
-impl<T> LinkedList<T> {
-    fn new(head: OptionalNode<T>) -> Self {
-        LinkedList{ head: head }
-    }
-
-    fn get_head(&self) -> &OptionalNode<T> {
-        &self.head
-    }
-
-    fn get_tail(&self) -> &OptionalNode<T> {
-        let mut node = &self.head;
-        loop {
-            if node.next.is_none() { break; }
-            node = node.next;
+  /// Removes the first element and returns it, or None if the list is empty.
+  /// This operation should compute in O(1) time.
+  fn pop_front(&mut self) -> Option<T> {
+  }
+  
+  /// Appends an element to the back of a list.
+  /// This operation should compute in O(1) time.
+  fn push_back(&mut self, elt: T) {
+  }
+  
+  /// Adds an element first in the list.
+  /// This operation should compute in O(1) time.
+  fn push_front(&mut self, elt: T) {
+  }
+}
+  
+impl<T> fmt::Display for DoublyLinkedList<T>
+where
+    T: fmt::Display,
+{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let mut current = self.head.clone();
+        while let Some(node) = current {
+            let n = node.borrow();
+            write!(f, "{}", n.data)?;
+            current = n.next.clone();
+            if current.is_some() {
+                write!(f, "<--->")?;
+            }
         }
-        node
+        Ok(())
     }
-
-    fn lpush(&self) { unimplemented!() }
-    fn rpush(&self) { unimplemented!() }
-    fn delete(&self) { unimplemented!() }
-    fn find(&self) { unimplemented!() }
-    fn print(&self) { unimplemented!() }
 }
-
-
 
 fn main() {
-    let node = Node{ value: 1 , next: None };
+    let mut list = DoublyLinkedList::new();
 
-    let ll = LinkedList::new(node);
-    ll.hello();
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    println!("{}", list); // 1<--->2<--->3
+
+    list.push_front(4);
+    list.push_front(5);
+
+    println!("{}", list); // 5<--->4<--->1<--->2<--->3
 }
