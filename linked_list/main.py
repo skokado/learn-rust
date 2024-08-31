@@ -46,7 +46,7 @@ class DoublyLinkedList:
             self.tail = new_node
             return
         
-        new_node.prev = self.head
+        new_node.prev = self.tail
         self.tail.next = new_node
         self.tail = new_node
 
