@@ -1,12 +1,19 @@
-from .python import LinkedList, Node
+class Node:
+    "TODO"
 
 
-linked_list = LinkedList(
-    head=Node(
-        1, next=Node(
-            2, next=Node(
-                3, next=Node(4)
-            )
-        )
-    )
-)
+class DoublyLinkedList:
+    "TODO"
+
+
+if __name__ == "__main__":
+    l = DoublyLinkedList()
+
+    l.push_back(1)
+    l.push_back(2)
+    l.push_back(3)
+    print(l)  # 1<--->2<--->3
+
+    l.push_back(4)
+    l.push_back(5)
+    print(l)  # 5<--->4<--->1<--->2<--->3
