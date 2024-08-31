@@ -37,6 +37,7 @@ impl<T: Clone> DoublyLinkedList<T> {
             if let Some(tail) = &mut self.tail {
                 tail.borrow_mut().next = Some(new_node.clone());
             }
+            new_node.borrow_mut().prev = self.tail.clone();
             self.tail = Some(new_node);
         }
     }
@@ -58,19 +59,33 @@ impl<T: Clone> Display for DoublyLinkedList<T>
 where
     T: Display,
 {
-    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter) -> Result {
         let mut current = self.head.clone();
-        write!(f, "[head] (")?;
-
+        write!(f, "head: (")?;
         while let Some(node) = current {
             let n = node.borrow();
             write!(f, "{}", n.data)?;
+            write!(f, "@{:p}", &n.data)?;
             current = n.next.clone();
             if current.is_some() {
                 write!(f, "<--->")?;
             }
         }
-        write!(f, ") [tail]")?;
+        write!(f, ") ")?;
+
+        let mut current = self.tail.clone();
+        write!(f, "tail: (")?;
+        while let Some(node) = current {
+            let n = node.borrow();
+            write!(f, "{}", n.data)?;
+            write!(f, "@{:p}", &n.data)?;
+            current = n.prev.clone();
+            if current.is_some() {
+                write!(f, "<--->")?;
+            }
+        }
+        write!(f, ")")?;
+
         Ok(())
     }
 }
